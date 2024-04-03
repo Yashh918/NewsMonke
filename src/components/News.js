@@ -2,69 +2,33 @@ import React, { Component } from 'react'
 import NewsItem from './NewsItem';
 
 export class News extends Component {
-    articles = [
-        {
-            "source": {
-                "id": "wired",
-                "name": "Wired"
-            },
-            "author": "Joel Khalili",
-            "title": "The Science of Crypto Forensics Survives a Court Battle—for Now",
-            "description": "A jury convicted Roman Sterlingov of money laundering this month. His defense team says it will appeal, saying the crypto-tracing technique at the heart of the case is “pseudoscience.”",
-            "url": "https://www.wired.com/story/the-science-of-crypto-forensics-court-battle/",
-            "urlToImage": "https://media.wired.com/photos/6603759fd3a75d0aa76d16ab/191:100/w_1280,c_limit/business_crypto_tracing_forensics_trial.jpg",
-            "publishedAt": "2024-03-27T11:00:00Z",
-            "content": "On March 12, Russian-Swedish national Roman Sterlingov was found guilty of money laundering conspiracy and other violations by a federal jury in Washington, DC, for having operated Bitcoin Fog, a ser… [+3654 chars]"
-        },
-        {
-            "source": {
-                "id": "bbc-news",
-                "name": "BBC News"
-            },
-            "author": null,
-            "title": "India v England: Fifth Test, day one - text updates",
-            "description": "Follow live text updates from day one of the fifth Test between India and England in Dharamsala.",
-            "url": "https://www.bbc.co.uk/sport/live/cricket/67781543",
-            "urlToImage": "https:////m.files.bbci.co.uk/modules/bbc-morph-sport-seo-meta/1.23.3/images/bbc-sport-logo.png",
-            "publishedAt": "2024-03-06T15:31:35Z",
-            "content": "Dharamsala is this week's venue and judging from the England players' social media, it looks like an absolute stunner. \r\nI was lucky enough to visit Newlands in Cape Town last year and both are surel… [+419 chars]"
-        },
-        {
-            "source": {
-                "id": "the-verge",
-                "name": "The Verge"
-            },
-            "author": "Allison Johnson",
-            "title": "Motorola’s newest budget phones look surprisingly good",
-            "description": "The 2024 Motorola Moto G Power 5G and Moto G 5G come with notable upgrades, like NFC chips for mobile payment and an attractive vegan leather finish.",
-            "url": "https://www.theverge.com/2024/3/12/24097606/motorola-moto-g-5g-power-price-screen-battery",
-            "urlToImage": "https://cdn.vox-cdn.com/thumbor/jMTK4F3ecT1etm7Y2u4sEMLOFe0=/0x0:2000x1500/1200x628/filters:focal(1000x750:1001x751)/cdn.vox-cdn.com/uploads/chorus_asset/file/25330753/moto_g_power_5G_2024_PDP.jpg",
-            "publishedAt": "2024-03-12T13:00:00Z",
-            "content": "Motorolas newest budget phones look surprisingly good\r\nMotorolas newest budget phones look surprisingly good\r\n / Two new Moto G phones get some significant upgrades.\r\nByAllison Johnson, a reviewer wi… [+2873 chars]"
-        },
-        {
-            "source": {
-                "id": "bbc-news",
-                "name": "BBC News"
-            },
-            "author": "https://www.facebook.com/bbcnews",
-            "title": "Oldest surviving England player dies at 94",
-            "description": "Ron Baynham turned out 434 times for Luton Town and carried on playing after breaking his skull.",
-            "url": "https://www.bbc.co.uk/news/uk-england-beds-bucks-herts-68602140",
-            "urlToImage": "https://ichef.bbci.co.uk/news/1024/branded_news/5131/production/_132958702_1a02f51169f17e173d9b1ca4c2151b2f84adf65f823_856_4355_24511000x563.jpg",
-            "publishedAt": "2024-03-18T20:50:51Z",
-            "content": "Former Luton Town and England goalkeeper Ron Baynham has died at the age of 94.\r\nBaynham made 434 appearances for the Hatters, arriving in 1951 and playing his last game for them in 1965.\r\nHe earned … [+2360 chars]"
-        }
-    ]
-
     constructor() {
         super();
         // console.log("Hello, this is a constructor from news class");
         this.state = {
-            articles: this.articles,
+            data: null,
             loading: false
         }
     }
+
+    async componentDidMount() {
+        let url = "https://newsapi.org/v2/top-headlines?country=in&apiKey=72b0f94439d9432fb4e9272229db1330";
+        let res = await fetch(url);
+        let result = await (res.json());
+        console.log(result.articles);
+        this.setState({ data: result.articles });
+
+    }
+
+    // componentDidMount() {
+    //     let url = "https://newsapi.org/v2/top-headlines?country=in&apiKey=72b0f94439d9432fb4e9272229db1330";
+    //     fetch(url).then((res) => {
+    //         res.json().then((result) => {
+    //             console.log(result.articles)
+    //             this.setState({data: result.articles})
+    //         })
+    //     })
+    // }
 
     render() {
         return (
@@ -73,12 +37,12 @@ export class News extends Component {
                     NewMonke - Top headlines
                 </h2>
 
-                <div className="row">
-                    {this.state.articles.map((element) => {
+                <div className="row row-cols-3 row-cols-md-2 g-4">
+                    {this.state.data ? this.state.data.map((element) => {
                         return <div className="col-md-4" key={element.url}>
-                            <NewsItem title={element.title.slice(0,45)} description={element.description.slice(0,80)} imageUrl={element.urlToImage} newsUrl={element.url} />
+                            <NewsItem title={element.title ? element.title : ""} description={element.description ? element.description : ""} imageUrl={element.urlToImage} newsUrl={element.url} />
                         </div>
-                    })}
+                    }) : null}
                 </div>
             </div>
         )
