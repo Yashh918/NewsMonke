@@ -4,7 +4,7 @@ export class NewsItem extends Component {
     render() {
         let { title, description, imageUrl, newsUrl } = this.props;
         return (
-            <div className="card h-100" style={{ width: "21rem" }}>
+            <div className="card h-100">
                 <img src={imageUrl ? imageUrl : "https://cdn4.iconfinder.com/data/icons/picture-sharing-sites/32/No_Image-1024.png"} className="card-img-top" alt="..." />
                 <div className="card-body d-flex flex-column">
                     <h5 className="card-title">{title}</h5>
