@@ -16,14 +16,19 @@ export class News extends Component {
         catergory: PropTypes.string
     }
 
-    constructor() {
-        super();
+    capitalizeFirst = (str) => {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    constructor(props) {
+        super(props);
         this.state = {
             data: null,
             loading: false,
             page: 1,
             pageSize: 9
         }
+        document.title = `${this.capitalizeFirst(this.props.category)} - NewsMonke`;
     }
 
     // both async,,,await and promises methods work just fine
@@ -46,7 +51,8 @@ export class News extends Component {
         this.setState({ loading: true });
         fetch(url).then((res) => {
             res.json().then((result) => {
-                console.log(result.articles)
+                console.log(result.articles);
+                console.log(result.totalResults);
                 this.setState({
                     totalResults: result.totalResults,
                     data: result.articles,
@@ -74,7 +80,7 @@ export class News extends Component {
             <>
                 <div className='container my-3'>
                     <h2 className='text-center p-3'>
-                        NewMonke - Top headlines
+                        NewsMonke - Top {this.capitalizeFirst(this.props.category)} headlines
                     </h2>
                     {this.state.loading && <Spinner />}
 
