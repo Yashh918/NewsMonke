@@ -16,8 +16,6 @@ let News = (props) => {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
 
-    document.title = `${capitalizeFirst(props.category)} - NewsMonke`;
-
     // both async,,,await and promises methods work just fine
     // async componentDidMount() {
     //     let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${state.page}&pageSize=${props.pageSize}`;
@@ -41,8 +39,8 @@ let News = (props) => {
             props.setProgress(30);
             res.json().then((result) => {
                 props.setProgress(40);
-                console.log(result.articles);
-                console.log(result.totalResults);
+                // console.log(result.articles);
+                // console.log(result.totalResults);
                 setTotalResults(result.totalResults)
                 setData(result.articles)
                 setLoading(false)
@@ -53,7 +51,8 @@ let News = (props) => {
     }
 
     useEffect(() => {
-      updateNews();
+        document.title = `${capitalizeFirst(props.category)} - NewsMonke`;
+        updateNews();
     }, [])
 
     let handlePrevClick = () => {
@@ -71,8 +70,8 @@ let News = (props) => {
             props.setProgress(10);
             res.json().then((result) => {
                 props.setProgress(30);
-                console.log(result.articles);
-                console.log(result.totalResults);
+                // console.log(result.articles);
+                // console.log(result.totalResults);
                 setTotalResults(result.totalResults)
                 setData(data.concat(result.articles))
                 setLoading(false)
@@ -87,7 +86,7 @@ let News = (props) => {
         return (
             
                 <div className='container my-3'>
-                    <h2 className='text-center p-3'>
+                    <h2 className='text-center p-3' style={{marginTop:'3rem'}}>
                         NewsMonke - Top {capitalizeFirst(props.category)} headlines
                     </h2>
 
