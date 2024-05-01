@@ -35,7 +35,7 @@ export class News extends Component {
 
     // both async,,,await and promises methods work just fine
     // async componentDidMount() {
-    //     let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=72b0f94439d9432fb4e9272229db1330&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+    //     let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     //     this.setState({loading: true});
     //     let res = await fetch(url); 
     //     let result = await (res.json());
@@ -50,7 +50,7 @@ export class News extends Component {
 
     updateNews = () => {
         this.props.setProgress(10);
-        const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=72b0f94439d9432fb4e9272229db1330&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+        const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
         this.setState({ loading: true });
         fetch(url).then((res) => {
             this.props.setProgress(30);
@@ -83,7 +83,7 @@ export class News extends Component {
 
     fetchMoreData = () => {
         this.setState({ page: ++this.state.page })
-        const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=72b0f94439d9432fb4e9272229db1330&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+        const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
         fetch(url).then((res) => {
             res.json().then((result) => {
                 console.log(result.articles);
